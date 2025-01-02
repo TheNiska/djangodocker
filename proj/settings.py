@@ -29,7 +29,7 @@ SECRET_KEY = str(getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(getenv('DEBUG')) == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = str(getenv('ALLOWED_HOSTS')).split(',')
 
 
 # Application definition
@@ -80,8 +80,15 @@ WSGI_APPLICATION = 'proj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': str(getenv('DB_NAME')),
+        'USER': str(getenv('DB_USER')),
+        'PASSWORD': str(getenv('DB_PASSWORD')),
+        'HOST': str(getenv('DB_HOST')),
+        'PORT': str(getenv('DB_PORT')),
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
